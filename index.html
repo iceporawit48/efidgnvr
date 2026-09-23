@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAN FESTIVAL 2026 - Interactive Fan Plan & Schedule Tool</title>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  --fg: #f8fafc;
+  --fg-soft: #cbd5e1;
+  --mut: #94a3b8;
+  --card-bg: rgba(30, 41, 59, 0.75);
+  --card-hover: rgba(45, 55, 72, 0.9);
+  --bd: rgba(99, 102, 241, 0.25);
+  --bd-hover: rgba(99, 102, 241, 0.5);
+  --ac: #6366f1;
+  --ac-dark: #4f46e5;
+  --ac-light: rgba(99, 102, 241, 0.18);
+  --ac2: #f43f5e;
+  --ac2-light: rgba(244, 63, 94, 0.18);
+  --ok: #10b981;
+  --ok-light: rgba(16, 185, 129, 0.18);
+  --hl: #f59e0b;
+  --in-bg: rgba(15, 23, 42, 0.85);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.6);
+  --glass: blur(16px);
+  
+  /* Booth Colors matching official image */
+  --purple-pill: #b57edc;
+  --purple-bg: rgba(181, 126, 220, 0.22);
+  --purple-border: rgba(181, 126, 220, 0.5);
+  --purple-text: #e9d5ff;
+
+  --teal-pill: #2dd4bf;
+  --teal-bg: rgba(45, 212, 191, 0.22);
+  --teal-border: rgba(45, 212, 191, 0.5);
+  --teal-text: #99f6e4;
+  
+  --hall-bg: #eddcc9;
+  --hall-bd: #c4a482;
+  --hall-fg: #1e1008;
+}
+
+body.light-theme {
+  --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  --fg: #0f172a;
+  --fg-soft: #334155;
+  --mut: #64748b;
+  --card-bg: rgba(255, 255, 255, 0.88);
+  --card-hover: #ffffff;
+  --bd: rgba(148, 163, 184, 0.3);
+  --ac: #2563eb;
+  --ac-dark: #1d4ed8;
+  --ac-light: #eff6ff;
+  --in-bg: #ffffff;
+  --shadow-sm: 0 2px 6px rgba(0,0,0,0.05);
+  --purple-pill: #a855f7;
+  --purple-bg: rgba(168, 85, 247, 0.12);
+  --purple-text: #7e22ce;
+  --teal-pill: #0d9488;
+  --teal-bg: rgba(13, 148, 136, 0.12);
+  --teal-text: #0f766e;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Outfit', 'Noto Sans Thai', sans-serif;
+  transition: background-color .15s ease, border-color .15s ease, transform .12s ease, box-shadow .15s ease;
+}
+
+body {
+  margin: 0;
+  color: var(--fg);
+  background: var(--bg-gradient) fixed;
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.hd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px 20px 12px;
+}
+
+.logo-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 2.2rem;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #f43f5e, #fb7185 40%, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.sub {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: var(--mut);
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.date-pill {
+  background: var(--card-bg);
+  border: 1px solid var(--bd);
+  backdrop-filter: var(--glass);
+  padding: 6px 14px;
+  border-radius: 20px;
+  color: var(--hl);
+  font-size: 0.85rem;
+  font-weight: 800;
+  box-shadow: var(--shadow-sm);
+}
+
+.tbtn, .btn {
+  font-weight: 700;
+  border: 1px solid var(--bd);
+  background: var(--card-bg);
+  color: var(--fg);
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  user-select: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn.p {
+  background: linear-gradient(135deg, var(--ac), var(--ac-dark));
+  border: 0;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+.btn.danger {
+  background: linear-gradient(135deg, var(--ac2), #be123c);
+  border: 0;
+  color: #ffffff;
+}
+
+.btn.sm {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 8px;
+}
+
+.btn.subtle {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--mut);
+}
+
+.btn.subtle:hover {
+  background: var(--card-bg);
+  color: var(--fg);
+}
+
+.btn:hover, .tbtn:hover {
+  transform: translateY(-1px);
+  border-color: var(--ac);
+}
+
+/* Navigation */
+nav.np {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--card-bg);
+  backdrop-filter: var(--glass);
+  border-bottom: 1px solid var(--bd);
+  box-shadow: var(--shadow-sm);
+}
+
+nav div.nav-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 6px 16px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+nav div.nav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.nb {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--mut);
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nb:hover {
+  color: var(--fg);
+  background: var(--ac-light);
+}
+
+.nb.on {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--ac), var(--ac-dark));
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}
+
+/* Main */
+main {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px 16px 80px;
+}
+
+.pg {
+  display: none;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.pg.on {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--bd);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card-subtitle {
+  font-size: 0.82rem;
+  color: var(--mut);
+  margin-top: 2px;
+}
+
+/* Search Input */
+.search-wrapper {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.inp {
+  width: 100%;
+  padding: 12px 18px;
+  padding-right: 40px;
+  border-radius: 12px;
+  border: 1.5px solid var(--bd);
+  background: var(--in-bg);
+  color: var(--fg);
+  font-size: 0.95rem;
+  font-weight: 500;
+  outline: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.inp:focus {
+  border-color: var(--ac);
+  box-shadow: 0 0 0 3px var(--ac-light);
+}
+
+.search-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--mut);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 2px;
+  display: none;
+}
+
+.search-clear.show {
+  display: block;
+}
+
+/* =========================================================
+   INTERACTIVE FAN PLAN GRAPHIC LAYOUT (OFFICIAL BOOTH PLAN)
+   ========================================================= */
+.plan-container {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .plan-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Directory List (Left Column) */
+.plan-directory {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .plan-directory {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.dir-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: 1.5px solid var(--purple-border);
+  background: var(--purple-bg);
+  color: var(--purple-text);
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dir-item.teal {
+  border-color: var(--teal-border);
+  background: var(--teal-bg);
+  color: var(--teal-text);
+}
+
+.dir-item:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  filter: brightness(1.15);
+}
+
+.dir-item.selected-active {
+  background: var(--hl) !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.8);
+}
+
+.dir-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1e1008;
+  font-weight: 900;
+  font-size: 0.7rem;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.dir-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* MCC Hall Visual Floor Map (Right Column) */
+.hall-wrapper {
+  background: var(--hall-bg);
+  border: 4px solid var(--hall-bd);
+  border-radius: 20px;
+  padding: 16px;
+  color: var(--hall-fg);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.hall-stage {
+  background: #000000;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.hall-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.hall-aisle {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hall-entrance-gap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 900;
+  padding: 8px 0;
+  color: #78350f;
+}
+
+.booth-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  border-radius: 14px;
+  background: #000000;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.78rem;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.booth-pill:hover {
+  transform: scale(1.05);
+  background: var(--ac);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
+}
+
+.booth-pill.selected-active {
+  background: var(--hl) !important;
+  color: #000000 !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.9);
+}
+
+.booth-pill .arrow {
+  font-size: 0.65rem;
+  opacity: 0.8;
+}
+
+.hall-center-island {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.hall-bottom-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 2px dashed #c4a482;
+}
+
+.hall-bottom-row .booth-pill {
+  padding: 6px 8px;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  justify-content: center;
+  font-size: 0.72rem;
+}
+
+/* Slots & Badges */
+.slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border: 1px solid var(--bd);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  background: var(--card-bg);
+}
+
+.slot:hover {
+  border-color: var(--ac);
+  background: var(--card-hover);
+}
+
+.slot-time {
+  font-weight: 800;
+  font-size: 0.9rem;
+  min-width: 90px;
+}
+
+.act-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid var(--bd);
+  background: var(--ac-light);
+  color: var(--ac);
+}
+
+.act-badge.appeal { background: rgba(99, 102, 241, 0.15); color: #818cf8; border-color: rgba(99, 102, 241, 0.3); }
+.act-badge.booth { background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3); }
+.act-badge.hitouch { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.3); }
+.act-badge.hachi { background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3); }
+.act-badge.merch { background: rgba(244, 63, 94, 0.15); color: #fb7185; border-color: rgba(244, 63, 94, 0.3); }
+
+/* Overlap Conflict */
+.cf {
+  border: 1px solid var(--ac2);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 10px;
+  background: var(--ac2-light);
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 8px;
+  border: 1px solid var(--bd);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 2px 2px 0 0;
+  background: var(--card-bg);
+}
+
+/* Two Column Layout */
+.two {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 2fr 1fr;
+}
+
+/* Modal Picker Drawer */
+#modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+#modal .card {
+  width: 100%;
+  max-width: 500px;
+  max-height: 88vh;
+  overflow-y: auto;
+  margin: 0;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  border-color: var(--ac);
+}
+
+.x {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 30px 16px;
+  color: var(--mut);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.hid {
+  display: none !important;
+}
+
+/* Floating Mobile Cart Button */
+.floating-cart-btn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 50;
+  background: linear-gradient(135deg, var(--ac), var(--ac-dark));
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+  cursor: pointer;
+  align-items: center;
+  gap: 8px;
+}
+
+.floating-cart-btn span {
+  background: #ffffff;
+  color: var(--ac-dark);
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 200;
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+  pointer-events: none;
+}
+
+#toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+@media(max-width: 800px) {
+  .two { grid-template-columns: 1fr; }
+  .hd { padding: 14px 16px 8px; }
+  .logo { font-size: 1.6rem; }
+  .floating-cart-btn.show { display: flex; }
+}
+
+@media print {
+  .np, .floating-cart-btn { display: none !important; }
+  body { background: #ffffff !important; color: #000000 !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="logo-group">
+    <div class="logo">FAN FESTIVAL 2026</div>
+    <div class="sub">BNK48 × CGM48 · FAN PLAN & INTERACTIVE BOOTH MAP</div>
+  </div>
+  <div class="header-right np">
+    <button class="tbtn" id="themeBtn" onclick="toggleTheme()">☀️ ธีมสว่าง</button>
+    <div class="date-pill">📍 3 – 4 OCT 2026 @ MCC HALL</div>
+  </div>
+</div>
+
+<nav class="np">
+  <div class="nav-inner">
+    <button class="nb on" onclick="showPage('plan',this)">🗺️ ผังบูธ Interactive</button>
+    <button class="nb" onclick="showPage('bod',this)">🤝 บด System</button>
+    <button class="nb" onclick="showPage('activities',this)">📋 รายละเอียดกิจกรรม</button>
+    <button class="nb" onclick="showPage('summary',this)">📊 สถิติรวม</button>
+    <button class="nb" onclick="showPage('schedule',this)">📅 ตารางงานส่วนตัว</button>
+  </div>
+</nav>
+
+<main>
+  <!-- 1. INTERACTIVE FAN PLAN & SCHEDULE PICKER -->
+  <section id="page-plan" class="pg on">
+    <div class="card" style="border-left:4px solid var(--ac)">
+      <h3>
+        <span>🗺️ INTERACTIVE FAN PLAN (ผังบูธแฟนคลับ MCC HALL)</span>
+        <span style="font-size:0.8rem;color:var(--hl);font-weight:700">💡 กดที่ชื่อเมมเบอร์ หรือเลขบูธเพื่อดูตารางงานทันที!</span>
+      </h3>
+      <div class="card-subtitle">
+        จำลองตามผังงานต้นฉบับ FAN FESTIVAL 2026 · บูธหมายเลข 1–58
+      </div>
+    </div>
+
+    <div class="search-wrapper">
+      <input class="inp" id="planSearchInput" placeholder="🔍 ค้นหาชื่อเมมเบอร์ หรือ เลขบูธ (เช่น Hoop, Paeyah, 39)..." oninput="renderPlanView()">
+      <button class="search-clear" id="searchClearPlan" onclick="document.getElementById('planSearchInput').value='';renderPlanView()">✕</button>
+    </div>
+
+    <div class="plan-container">
+      <!-- Left Directory -->
+      <div class="card">
+        <b style="display:block;font-size:0.9rem;margin-bottom:12px;color:var(--ac)">📋 รายชื่อเมมเบอร์ & บูธ (1–58)</b>
+        <div id="planDirectoryList" class="plan-directory"></div>
+      </div>
+
+      <!-- Right Visual Map (MCC Hall Layout) -->
+      <div class="hall-wrapper">
+        <div class="hall-stage">STAGE</div>
+        
+        <div class="hall-layout-grid">
+          <!-- Left Aisle (1-5, gap, 6-12) -->
+          <div class="hall-aisle">
+            <div id="booths-1-5"></div>
+            <div class="hall-entrance-gap">⇄ ทางเข้า</div>
+            <div id="booths-6-12"></div>
+          </div>
+
+          <!-- Center Island (13-21 back-to-back 22-30) -->
+          <div class="hall-center-island">
+            <div class="hall-aisle" id="booths-13-21"></div>
+            <div class="hall-aisle" id="booths-22-30"></div>
+          </div>
+
+          <!-- Right Aisle (31-48) -->
+          <div class="hall-aisle" id="booths-31-48"></div>
+        </div>
+
+        <!-- Bottom Row (49-58) -->
+        <div class="hall-bottom-row" id="booths-49-58"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. บด System -->
+  <section id="page-bod" class="pg">
+    <div class="card" style="border-left:4px solid var(--ac2)">
+      <h3 style="color:var(--ac2)">🤝 บด System (Booth Matching Checker)</h3>
+      <div class="card-subtitle">
+        ตรวจสอบคิวงานที่ <b>"ตรงกันและเวลาเดียวกัน"</b> ของเมมเบอร์ที่คุณสนใจ เพื่อวางแผนเดินงานแบบไม่พลาดจุดปะทะ!
+      </div>
+    </div>
+
+    <div class="search-wrapper">
+      <input class="inp" id="bodSearchInput" placeholder="🔍 ค้นหาเมมเบอร์..." oninput="onSearchInput('bodMemberGrid','bodSearchInput','searchClearBod',1)">
+      <button class="search-clear" id="searchClearBod" onclick="clearSearch('bodMemberGrid','bodSearchInput','searchClearBod',1)">✕</button>
+    </div>
+
+    <div id="bodMemberGrid" class="plan-directory" style="max-height:220px;overflow-y:auto;padding-right:4px"></div>
+    
+    <div id="bodSelBar" class="card hid" style="margin-top:14px;padding:12px 16px"><span id="bodSelChips"></span></div>
+    <div id="bodResults" style="margin-top:14px"></div>
+  </section>
+
+  <!-- 3. รายละเอียดกิจกรรม -->
+  <section id="page-activities" class="pg">
+    <div id="actGrid" style="display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))"></div>
+  </section>
+
+  <!-- 4. สถิติรวม -->
+  <section id="page-summary" class="pg">
+    <div id="summaryContent"></div>
+  </section>
+
+  <!-- 5. ตารางงานส่วนตัว -->
+  <section id="page-schedule" class="pg">
+    <div class="two">
+      <div>
+        <div class="card" style="border-left:4px solid var(--ac)">
+          <h3 style="color:var(--ac)">📅 เลือกกิจกรรมลงตารางงานส่วนตัว</h3>
+          <div class="card-subtitle">
+            กดเลือกเมมเบอร์เพื่อดูตารางเวลาและกดใส่ตะกร้าตารางงานของคุณ
+          </div>
+        </div>
+
+        <div class="search-wrapper">
+          <input class="inp" id="schedSearchInput" placeholder="🔍 ค้นหาเมมเบอร์..." oninput="renderScheduleGrid()">
+        </div>
+
+        <div id="schedMemberGrid" class="plan-directory"></div>
+      </div>
+
+      <div>
+        <div id="cartArea" class="card" style="position:sticky;top:70px">
+          <div id="printHeader" class="hid" style="text-align:center;font-weight:900;color:var(--hl);margin-bottom:12px">
+            MY FAN FESTIVAL 2026 SCHEDULE
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center" class="np">
+            <b style="font-size:1.05rem;display:flex;align-items:center;gap:6px">🛒 ตารางงานของคุณ</b>
+            <button class="btn sm danger" onclick="clearCart()">ล้างตาราง</button>
+          </div>
+
+          <div id="cartItemList" style="max-height:55vh;overflow-y:auto;margin-top:10px;padding-right:4px"></div>
+
+          <div id="cartSummary" class="hid" style="margin-top:14px;border-top:1px dashed var(--bd);padding-top:12px">
+            <div class="stat" style="text-align:center;margin-bottom:12px">
+              <span>กิจกรรมที่เลือก</span>
+              <b id="cartTotal" style="font-size:1.8rem;color:var(--ac)">0 รอบ</b>
+            </div>
+
+            <div class="row np" style="margin-bottom:0;display:flex;gap:6px">
+              <button class="btn p" style="flex:1" onclick="downloadCartImage()">📷 บันทึกรูป</button>
+              <button class="btn" style="flex:1" onclick="copyScheduleLink()">🔗 แชร์ลิงก์</button>
+              <button class="btn" style="flex:1" onclick="printCart()">🖨️ พิมพ์</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<button class="floating-cart-btn" id="floatingCartBtn" onclick="scrollToCart()">
+  🛒 ตารางงานของคุณ <span id="floatCartCount">0</span>
+</button>
+
+<div id="toast"></div>
+
+<!-- Member Schedule Modal Drawer -->
+<div id="modal">
+  <div class="card">
+    <button class="btn x" onclick="closeModal()">✕</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <div id="modalBoothPill" class="dir-num" style="width:36px;height:36px;font-size:1rem;background:var(--ac);color:#fff"></div>
+      <div>
+        <h3 id="modalName" style="margin:0;color:var(--ac)"></h3>
+        <small id="modalSub" style="color:var(--mut);font-weight:700"></small>
+      </div>
+    </div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+/* DATASET & CONSTANTS */
+const ACT = [
+  { k: 'appeal', s: 'Appeal Speech (Main Stage)', n: 'กิจกรรมแสดงสปีชบนเวทีหลัก', icon: '🎤' },
+  { k: 'booth', s: 'Booth Visits', n: 'เมมเบอร์เยี่ยมชมบูธแฟนคลับ', icon: '🎪' },
+  { k: 'hitouch', s: 'Group Hi-Touch', n: 'ใช้บัตรซื้อจากเข็มกลัดในงาน', icon: '🤝' },
+  { k: 'hachi', s: 'Hachi Cha', n: 'กิจกรรมเต็ม 1 ชม. ไม่สลับกลุ่ม', icon: '🍵' },
+  { k: 'merch', s: 'Merchandise', n: 'ประจำบูธสินค้าเต็ม 1 ชม.', icon: '🛍️' }
+];
+
+const DAYS = ['3 Oct', '4 Oct'];
+
+const RAW = {
+'3 Oct':[
+['11:00','12:00','Praifa,Luksorn,Blythe,Rose|Mirin,Nana,Chifa,Wawa|Fame,Namphet,Lewlew,Satangpound,Lookked,Inkcha,Grape|Emma,Emmy,Tara,Punpon|Hoop,Saonoi,Shenae,Mail'],
+['12:00','13:00','Tara,Ploen,Mirin,Cartoon|Lookked,Shenae,Blythe,Marine||Jingjing,Mayji,Pancake,Rose|Satangpound,Nall,Lingling,Proud'],
+['13:00','14:00','Proud,Lookked,Mail,Shenae|Ploen,Tara,Niya,L|Yoghurt,Blythe,Nall,Arlee,Wawa,Chifa,Valentine|Praifa,Nisha,Hongyok,Neen|Nana,Luksorn,Prae,Khowjow'],
+['14:00','15:00','Marine,Emma,Wawa,Yoghurt|Cartoon,Luksorn,Fame,Mail||Galeya,Patt,Sindy,Prae,Ploen|Emmy,Niya,Khaimook,Jew,Jingjing'],
+['15:00','16:00','L,Chifa,Fame,Niya|Rose,Praifa,Emma,Proud|Lingling,Cartoon,Nammonn,Khaimook,Palmmy,Micha,Pancake,Mayji|Janry,Ginna,Luksorn,Praew|Mint,Yoghurt,Marine,Wawa']],
+'4 Oct':[
+['11:00','12:00','Palmmy,Nall,Punpon,Lewlew,Inkcha|Nisha,Hoop,Galeya,Grape,Ginna|Marine,Else,Jingjing,Tara,Mail,Niya,Praifa|Micha,Lingling,Mirin,Mint|Hongyok,Fame,Rose,Neen'],
+['12:00','13:00','Jew,Nana,Mint,Valentine,Else|Mayji,Lewlew,Nall,Monet,Neen||Khowjow,Wawa,Inkcha,Grape|Praifa,Micha,Janry,Nisha'],
+['13:00','14:00','Ginna,Jingjing,Neen,Hongyok|Micha,Pancake,Berry,Else|Jew,Shenae,Nana,Janry,Emma,Ploen,Kwan|Khaimook,Cartoon,Lookked,Proud|Valentine,Monet,Patt,Inkcha'],
+['14:00','15:00','Janry,Nammonn,Hoop,Emmy|Namphet,Mint,Punpon,Jingjing||Nall,Nana,L,Arlee,Palmmy|Lewlew,Ginna,Lookked,Kwan,Mayji'],
+['15:00','16:00','Lingling,Micha,Khaimook,Sindy|Satangpound,Palmmy,Prae,Nammonn|Neen,Punpon,Emmy,Patt,Monet,Nisha,Berry|Niya,Else,Jew,Fame|Tara,Chifa,Praew,Mirin'],
+['16:00','17:00','Satangpound,Khowjow,Praew,Berry|Valentine,Patt,Saonoi,Hongyok||Blythe,Monet,Namphet,Marine|Cartoon,Else,Punpon,Sindy'],
+['17:00','18:00','Namphet,Monet,Nisha,Mayji|Praew,Sindy,Arlee,Jew|Khowjow,Luksorn,Prae,Saonoi,L,Ginna,Proud,Galeya|Mail,Satangpound,Hoop,Kwan|Ploen,Emma,Pancake,Nammonn'],
+['18:00','19:00','Patt,Galeya,Kwan,Pancake|Khowjow,Emmy,Janry,Lingling||Lewlew,Valentine,Yoghurt,Saonoi|Grape,Arlee,Blythe,Berry'],
+['19:00','20:00','Grape,Prae,Saonoi,Arlee|Khaimook,Inkcha,Yoghurt,Kwan|Rose,Hongyok,Sindy,Praew,Hoop,Mirin,Mint|Chifa,Shenae,Nammonn,Berry|Namphet,Palmmy,Galeya,L']]
+};
+
+const B = "Nall,Neen,Arlee,L,Grape,Satangpound,Lewlew,Punpon,Lingling,Patt,Micha,Mint,Mail,Else,Shenae,Nammonn,Pancake,Monet,Praew,Luksorn,Cartoon,Emma,Palmmy,Chifa,Lookked,Ginna,Jingjing,Khaimook,Marine,Janry,Berry,Galeya,Mayji,Praifa,Emmy,Blythe,Mirin,Wawa,Hoop,Sindy,Inkcha,Nisha,Jew,Tara,Nana,Namphet,Kwan,Hongyok,Saonoi,Rose,Niya,Khowjow,Proud,Yoghurt,Fame,Ploen,Prae,Valentine".split(',');
+const TEAL = new Set("Satangpound,Lewlew,Punpon,Lingling,Else,Shenae,Emma,Chifa,Lookked,Ginna,Jingjing,Praifa,Nisha,Tara,Nana,Namphet,Kwan,Hongyok,Saonoi,Ploen,Prae,Valentine".split(','));
+
+const DATA = {};
+ACT.forEach(a => DATA[a.k] = {});
+DAYS.forEach(d => {
+  ACT.forEach(a => DATA[a.k][d] = {});
+  RAW[d].forEach(([start, end, s]) => {
+    s.split('|').forEach((mList, idx) => {
+      if (mList) DATA[ACT[idx].k][d][start + '-' + end] = mList.split(',');
+    });
+  });
+});
+
+/* STATE */
+const $ = id => document.getElementById(id);
+const ALL = B.slice(); // Maintain Booth Order 1-58!
+const bn = m => B.indexOf(m) + 1;
+let selected = new Set();
+let cart = new Set();
+let activeMember = '';
+
+function acts(m, days = DAYS) {
+  const r = [];
+  ACT.forEach(a => days.forEach(d => {
+    Object.entries(DATA[a.k][d]).forEach(([t, arr]) => {
+      if (arr.includes(m)) r.push({ a, d, t });
+    });
+  }));
+  return r.sort((x, y) => DAYS.indexOf(x.d) - DAYS.indexOf(y.d) || x.t.localeCompare(y.t));
+}
+
+const byDay = list => list.reduce((o, x) => ((o[x.d] = o[x.d] || []).push(x), o), {});
+
+function showToast(msg) {
+  const t = $('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+function showPage(p, btn) {
+  document.querySelectorAll('.pg').forEach(e => e.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(e => e.classList.remove('on'));
+  $('page-' + p).classList.add('on');
+  if (btn) btn.classList.add('on');
+
+  if (p === 'plan') { renderPlanView(); }
+  if (p === 'bod') { chips('bodMemberGrid', 'bodSearchInput', 1); renderBod(); }
+  if (p === 'activities') { renderActivities(); }
+  if (p === 'summary') { renderSummary(); }
+  if (p === 'schedule') { renderScheduleGrid(); renderCart(); }
+}
+
+/* =========================================================
+   INTERACTIVE FAN PLAN GRAPHIC LAYOUT RENDERER
+   ========================================================= */
+function renderPlanView() {
+  const q = ($('planSearchInput') ? $('planSearchInput').value : '').toLowerCase().trim();
+
+  // 1. Render Left Directory (1-58)
+  const dirHtml = B.map((m, i) => {
+    const num = i + 1;
+    const isTeal = TEAL.has(m);
+    const isMatch = !q || m.toLowerCase().includes(q) || num.toString() === q;
+    if (!isMatch) return '';
+
+    return `<div class="dir-item ${isTeal ? 'teal' : ''}" onclick="openModal('${m}')">
+      <div class="dir-num">${num}</div>
+      <span class="dir-name">${m}</span>
+    </div>`;
+  }).join('');
+  $('planDirectoryList').innerHTML = dirHtml || `<div class="empty" style="grid-column:1/-1">ไม่พบเมมเบอร์</div>`;
+
+  // Helper for Hall Map Booth Pills
+  const makeBoothPill = (num, arrow = '') => {
+    const m = B[num - 1];
+    if (!m) return '';
+    const isTeal = TEAL.has(m);
+    const isMatch = !q || m.toLowerCase().includes(q) || num.toString() === q;
+    
+    return `<div class="booth-pill ${isMatch ? '' : 'hid'}" 
+      style="${isTeal ? 'border:1px solid #2dd4bf;color:#99f6e4' : ''}" 
+      onclick="openModal('${m}')">
+      <span>${arrow} ${num}</span>
+    </div>`;
+  };
+
+  // 2. Render Hall Layout Sections
+  $('booths-1-5').innerHTML = [1,2,3,4,5].map(n => makeBoothPill(n, '▶')).join('');
+  $('booths-6-12').innerHTML = [6,7,8,9,10,11,12].map(n => makeBoothPill(n, '▶')).join('');
+  $('booths-13-21').innerHTML = [13,14,15,16,17,18,19,20,21].map(n => makeBoothPill(n, '◀')).join('');
+  $('booths-22-30').innerHTML = [22,23,24,25,26,27,28,29,30].map(n => makeBoothPill(n, '▶')).join('');
+  $('booths-31-48').innerHTML = [31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48].map(n => makeBoothPill(n, '◀')).join('');
+  $('booths-49-58').innerHTML = [49,50,51,52,53,54,55,56,57,58].map(n => makeBoothPill(n, '▲')).join('');
+}
+
+/* =========================================================
+   MODAL DRAWER (MEMBER ACTIVITY SCHEDULE PICKER)
+   ========================================================= */
+function openModal(m) {
+  activeMember = m;
+  const bNo = bn(m);
+  const isTeal = TEAL.has(m);
+
+  $('modalBoothPill').textContent = '#' + bNo;
+  $('modalName').textContent = m;
+  $('modalSub').textContent = isTeal ? '🟢 บูธกลุ่มพิเศษ' : '📍 บูธปกติ';
+
+  const g = byDay(acts(m));
+
+  $('modalList').innerHTML = DAYS.map(d => g[d] ? 
+    `<div class="dl" style="font-size:0.82rem;font-weight:800;color:var(--ac);margin:14px 0 6px">📅 วัน${d}</div>` + 
+    g[d].map(x => {
+      const id = [m, x.a.k, x.d, x.t].join('|');
+      const on = cart.has(id);
+      return `<div class="slot" style="border-left:3px solid ${on ? 'var(--ok)' : 'var(--ac)'}">
+        <div>
+          <span class="act-badge ${x.a.k}">${x.a.icon} ${x.a.s}</span><br>
+          <small style="font-weight:700">⏰ เวลา ${x.t} น.</small>
+        </div>
+        <button class="btn sm ${on ? '' : 'p'}" onclick="toggleCart('${id}')">
+          ${on ? '✓ ในตาราง' : '+ เลือก'}
+        </button>
+      </div>`;
+    }).join('') : '<div class="empty">ไม่มีกิจกรรมในวันนี้</div>'
+  ).join('');
+
+  $('modal').style.display = 'flex';
+}
+
+function closeModal() {
+  $('modal').style.display = 'none';
+}
+
+/* BOD MATCHING */
+function onSearchInput(gid, iid, cid, small) {
+  const val = $(iid).value;
+  $(cid).classList.toggle('show', val.length > 0);
+  chips(gid, iid, small);
+}
+
+function clearSearch(gid, iid, cid, small) {
+  $(iid).value = '';
+  $(cid).classList.remove('show');
+  chips(gid, iid, small);
+}
+
+function chips(gid, iid, small) {
+  const q = $(iid).value.toLowerCase().trim();
+  const filtered = ALL.filter(m => m.toLowerCase().includes(q));
+
+  $(gid).innerHTML = filtered.map(m =>
+    `<div class="dir-item ${TEAL.has(m) ? 'teal' : ''} ${selected.has(m) ? 'selected-active' : ''}" onclick="toggleMember('${m}')">
+      <div class="dir-num">${bn(m)}</div>
+      <span class="dir-name">${m}</span>
+    </div>`
+  ).join('') || `<div class="empty" style="grid-column:1/-1">ไม่พบเมมเบอร์</div>`;
+}
+
+function toggleMember(m) {
+  selected.has(m) ? selected.delete(m) : selected.add(m);
+  refresh();
+}
+
+function refresh() {
+  chips('bodMemberGrid', 'bodSearchInput', 1);
+  const list = [...selected].sort();
+  const html = list.map(m => `<span class="tag" style="border-color:var(--ac)">${m} (#${bn(m)}) <i style="cursor:pointer" onclick="toggleMember('${m}')">×</i></span>`).join(' ');
+  
+  $('bodSelChips').innerHTML = html;
+  $('bodSelBar').classList.toggle('hid', !list.length);
+  renderBod();
+}
+
+function renderBod() {
+  const el = $('bodResults');
+  if (!selected.size) {
+    el.innerHTML = '<div class="card empty">กรุณาเลือกเมมเบอร์เพื่อตรวจสอบคิวงานที่ตรงกันและเวลาเดียวกัน</div>';
+    return;
+  }
+
+  let html = '';
+  DAYS.forEach(d => {
+    const slots = {};
+    selected.forEach(m => acts(m, [d]).forEach(x => {
+      const k = x.t + ' @ ' + x.a.s;
+      (slots[k] = slots[k] || []).push(m);
+    }));
+
+    const cf = Object.entries(slots).filter(([, ms]) => ms.length > 1).sort();
+    if (!cf.length) return;
+
+    html += `<div class="card">
+      <h3 style="color:var(--ac2)">📅 วันที่ ${d}</h3>
+      <div style="font-size:0.8rem;color:var(--mut);margin-top:2px">พบกิจกรรมเดียวกันและเวลาตรงกัน ดังนี้:</div>`;
+
+    cf.forEach(([k, ms]) => {
+      const [t, a] = k.split(' @ ');
+      const actObj = ACT.find(x => x.s === a);
+      html += `<div class="cf">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:0.85rem;margin-bottom:6px">
+          <span>⏰ เวลา ${t} น.</span>
+          <span class="act-badge ${actObj ? actObj.k : ''}">${actObj ? actObj.icon : ''} ${a}</span>
+        </div>
+        <div>
+          ${ms.sort().map(n => `<span class="tag" style="border-color:var(--ac);color:var(--fg)"><b>${n}</b> (#${bn(n)})</span>`).join('')}
+        </div>
+      </div>`;
+    });
+
+    html += '</div>';
+  });
+
+  el.innerHTML = html || `<div class="card empty" style="color:var(--ok);font-weight:700">
+    ✓ ไม่พบเมมเบอร์ที่คุณเลือกที่มีกิจกรรมและเวลาตรงกัน (ไม่มีคิวชนกัน)
+  </div>`;
+}
+
+function renderActivities() {
+  $('actGrid').innerHTML = ACT.map(a => {
+    const rows = DAYS.map(d => {
+      const s = Object.entries(DATA[a.k][d]);
+      const totalP = s.reduce((n, [, x]) => n + x.length, 0);
+      return `<div class="slot">
+        <span style="font-weight:700">📅 ${d}</span>
+        <span class="act-badge ${a.k}">${s.length} รอบ · รวม ${totalP} คิว</span>
+      </div>`;
+    }).join('');
+
+    return `<div class="card" style="border-top:3px solid var(--ac);margin:0">
+      <h3><span>${a.icon} ${a.s}</span></h3>
+      <p style="font-size:0.8rem;color:var(--mut);margin:4px 0 10px">${a.n}</p>
+      ${rows}
+    </div>`;
+  }).join('');
+}
+
+function renderSummary() {
+  const st = ALL.map(m => ({ m, l: acts(m) })).sort((a, b) => b.l.length - a.l.length);
+  const max = st[0].l.length || 1;
+  const total = st.reduce((n, x) => n + x.l.length, 0);
+
+  let html = `<div class="card" style="text-align:center;margin-bottom:16px">
+    <span style="font-size:0.8rem;color:var(--mut);font-weight:700">จำนวนคิวกิจกรรมทั้งหมดในงาน</span>
+    <b style="display:block;font-size:2.8rem;color:var(--ac);margin:2px 0">${total}</b>
+    <span style="font-size:0.85rem;color:var(--mut)">เมมเบอร์เข้าร่วมทั้งหมด ${st.length} คน</span>
+  </div>`;
+
+  st.forEach((x, i) => {
+    const rankClass = i === 0 ? 'top1' : (i === 1 ? 'top2' : (i === 2 ? 'top3' : ''));
+    const rankBadge = i === 0 ? '👑' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : i + 1));
+    const g = byDay(x.l);
+
+    const det = DAYS.map(d => g[d] ? `<div class="dl" style="font-size:0.8rem;font-weight:800;color:var(--ac);margin:10px 0 4px">📅 วัน${d}</div>` + g[d].map(y =>
+      `<div class="slot">
+        <span>⏰ ${y.t}</span>
+        <span class="act-badge ${y.a.k}">${y.a.icon} ${y.a.s}</span>
+      </div>`
+    ).join('') : '').join('');
+
+    html += `<div class="card" style="padding:14px 18px;margin-bottom:10px" onclick="this.classList.toggle('open')">
+      <div style="display:flex;align-items:center;gap:12px;cursor:pointer">
+        <div class="dir-num" style="width:30px;height:30px;font-size:0.8rem">${rankBadge}</div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <b>${x.m} <small style="color:var(--mut)">📍 บูธ #${bn(x.m)}</small></b>
+            <b style="color:var(--ac2);font-size:0.88rem">${x.l.length} คิว <span style="font-size:0.75rem;color:var(--mut)">▼</span></b>
+          </div>
+          <div style="height:8px;border-radius:8px;background:var(--bd);overflow:hidden;margin-top:4px">
+            <i style="display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));width:${(x.l.length / max) * 100}%"></i>
+          </div>
+        </div>
+      </div>
+      <div class="det">${det}</div>
+    </div>`;
+  });
+
+  $('summaryContent').innerHTML = html;
+}
+
+function renderScheduleGrid() {
+  const q = $('schedSearchInput').value.toLowerCase().trim();
+  $('schedMemberGrid').innerHTML = ALL.filter(m => m.toLowerCase().includes(q)).map(m =>
+    `<div class="dir-item ${TEAL.has(m) ? 'teal' : ''}" onclick="openModal('${m}')">
+      <div class="dir-num">${bn(m)}</div>
+      <span class="dir-name">${m}</span>
+    </div>`
+  ).join('');
+}
+
+function toggleCart(id) {
+  cart.has(id) ? cart.delete(id) : cart.add(id);
+  renderCart();
+  openModal(activeMember);
+}
+
+function removeFromCart(id) {
+  cart.delete(id);
+  renderCart();
+  if ($('modal').style.display === 'flex') openModal(activeMember);
+}
+
+function clearCart() {
+  if (!cart.size) return;
+  cart.clear();
+  renderCart();
+  if ($('modal').style.display === 'flex') openModal(activeMember);
+  showToast('ล้างตารางงานเรียบร้อยแล้ว');
+}
+
+function renderCart() {
+  const el = $('cartItemList');
+  $('cartSummary').classList.toggle('hid', !cart.size);
+  $('floatCartCount').textContent = cart.size;
+  $('floatingCartBtn').classList.toggle('show', cart.size > 0);
+
+  if (!cart.size) {
+    el.innerHTML = '<div class="empty" style="padding:20px">ยังไม่มีกิจกรรมในตาราง<br><small>กดเลือกเมมเบอร์เพื่อวางแผน</small></div>';
+    return;
+  }
+
+  const items = [...cart].map(id => {
+    const [m, k, d, t] = id.split('|');
+    return { id, m, a: ACT.find(x => x.k === k), d, t };
+  });
+
+  const g = byDay(items);
+  el.innerHTML = DAYS.map(d => g[d] ? `<div class="dl" style="font-size:0.8rem;font-weight:800;color:var(--ac);margin:10px 0 4px">📅 วัน${d}</div>` + g[d].sort((x, y) => x.t.localeCompare(y.t)).map(x =>
+    `<div class="slot" style="border-left:3px solid var(--ac)">
+      <div>
+        <span class="act-badge ${x.a.k}">${x.a.icon} ${x.a.s}</span><br>
+        <b style="font-size:0.88rem">${x.m}</b> <small>📍 บูธ #${bn(x.m)} · ⏰ ${x.t} น.</small>
+      </div>
+      <button class="btn sm np danger" onclick="removeFromCart('${x.id}')">✕</button>
+    </div>`
+  ).join('') : '').join('');
+
+  $('cartTotal').textContent = cart.size + ' รอบ';
+}
+
+function scrollToCart() {
+  $('cartArea').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function downloadCartImage() {
+  if (!cart.size) return;
+  $('printHeader').classList.remove('hid');
+  const list = $('cartItemList');
+  const mh = list.style.maxHeight;
+  list.style.maxHeight = 'none';
+
+  try {
+    const c = await html2canvas($('cartArea'), {
+      scale: 2,
+      backgroundColor: document.body.classList.contains('light-theme') ? '#f1f5f9' : '#0f172a',
+      ignoreElements: e => e.classList && e.classList.contains('np')
+    });
+    const a = document.createElement('a');
+    a.download = 'my-fanfestival-2026-schedule.png';
+    a.href = c.toDataURL('image/png');
+    a.click();
+    showToast('ดาวน์โหลดรูปภาพตารางงานสำเร็จ');
+  } catch (e) {
+    showToast('ไม่สามารถสร้างรูปภาพได้');
+  } finally {
+    $('printHeader').classList.add('hid');
+    list.style.maxHeight = mh;
+  }
+}
+
+function printCart() {
+  $('printHeader').classList.remove('hid');
+  window.print();
+  $('printHeader').classList.add('hid');
+}
+
+function copyScheduleLink() {
+  const p = new URLSearchParams();
+  p.set('timetable', JSON.stringify([...cart]));
+  p.set('share', '3');
+  const url = location.origin + location.pathname + '?' + p.toString();
+  
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => showToast('คัดลอกลิงก์ตารางงานเรียบร้อยแล้ว')).catch(() => prompt('คัดลอกลิงก์นี้:', url));
+  } else {
+    prompt('คัดลอกลิงก์นี้:', url);
+  }
+}
+
+function loadStateFromURL() {
+  try {
+    const p = new URLSearchParams(location.search);
+    const t = p.get('timetable');
+    if (t) {
+      const a = JSON.parse(t);
+      if (Array.isArray(a)) cart = new Set(a);
+    }
+    if (cart.size && p.get('share') === '3') {
+      showPage('schedule', document.querySelectorAll('.nb')[4]);
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+function applyTheme(isLight) {
+  document.body.classList.toggle('light-theme', isLight);
+  $('themeBtn').textContent = isLight ? '🌙 ธีมเข้ม' : '☀️ ธีมสว่าง';
+}
+
+function toggleTheme() {
+  const isLight = !document.body.classList.contains('light-theme');
+  applyTheme(isLight);
+  try { localStorage.setItem('theme', isLight ? 'light' : 'dark'); } catch (e) {}
+}
+
+(function() {
+  let isLight = false;
+  try { isLight = localStorage.getItem('theme') === 'light'; } catch (e) {}
+  applyTheme(isLight);
+  renderPlanView();
+  renderActivities();
+  loadStateFromURL();
+})();
+</script>
+</body>
+</html>
