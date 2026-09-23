@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FAN FESTIVAL 2026 - Interactive Fan Plan & Schedule Tool</title>
+<title>FAN FESTIVAL 2026 - BNK48 × CGM48 Schedule & Plan Tool</title>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap');
@@ -13,8 +13,8 @@
   --fg: #f8fafc;
   --fg-soft: #cbd5e1;
   --mut: #94a3b8;
-  --card-bg: rgba(30, 41, 59, 0.75);
-  --card-hover: rgba(45, 55, 72, 0.9);
+  --card-bg: rgba(30, 41, 59, 0.78);
+  --card-hover: rgba(45, 55, 72, 0.92);
   --bd: rgba(99, 102, 241, 0.25);
   --bd-hover: rgba(99, 102, 241, 0.5);
   --ac: #6366f1;
@@ -31,7 +31,6 @@
   --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.6);
   --glass: blur(16px);
   
-  /* Booth Colors matching official image */
   --purple-pill: #b57edc;
   --purple-bg: rgba(181, 126, 220, 0.22);
   --purple-border: rgba(181, 126, 220, 0.5);
@@ -52,7 +51,7 @@ body.light-theme {
   --fg: #0f172a;
   --fg-soft: #334155;
   --mut: #64748b;
-  --card-bg: rgba(255, 255, 255, 0.88);
+  --card-bg: rgba(255, 255, 255, 0.9);
   --card-hover: #ffffff;
   --bd: rgba(148, 163, 184, 0.3);
   --ac: #2563eb;
@@ -90,7 +89,7 @@ body {
   gap: 16px;
   align-items: center;
   justify-content: space-between;
-  max-width: 1240px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 20px 20px 12px;
 }
@@ -205,11 +204,11 @@ nav.np {
 }
 
 nav div.nav-inner {
-  max-width: 1240px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 6px 16px;
   display: flex;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -245,9 +244,9 @@ nav div.nav-inner::-webkit-scrollbar {
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
 }
 
-/* Main */
+/* Main Container */
 main {
-  max-width: 1240px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 20px 16px 80px;
 }
@@ -294,6 +293,52 @@ main {
   margin-top: 2px;
 }
 
+/* Multi Column Layout for Page 1 */
+.two-plan {
+  display: grid;
+  grid-template-columns: 2.2fr 1.1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .two-plan {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.filter-chip {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--bd);
+  background: var(--card-bg);
+  color: var(--fg-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+}
+
+.filter-chip:hover {
+  border-color: var(--ac);
+  color: var(--ac);
+}
+
+.filter-chip.on {
+  background: var(--ac);
+  color: #ffffff;
+  border-color: var(--ac);
+}
+
 /* Search Input */
 .search-wrapper {
   position: relative;
@@ -337,17 +382,15 @@ main {
   display: block;
 }
 
-/* =========================================================
-   INTERACTIVE FAN PLAN GRAPHIC LAYOUT (OFFICIAL BOOTH PLAN)
-   ========================================================= */
+/* INTERACTIVE FAN PLAN GRAPHIC LAYOUT */
 .plan-container {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
   align-items: start;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 768px) {
   .plan-container {
     grid-template-columns: 1fr;
   }
@@ -356,13 +399,13 @@ main {
 /* Directory List (Left Column) */
 .plan-directory {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
   .plan-directory {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -424,7 +467,7 @@ main {
   background: var(--hall-bg);
   border: 4px solid var(--hall-bd);
   border-radius: 20px;
-  padding: 16px;
+  padding: 14px;
   color: var(--hall-fg);
   box-shadow: var(--shadow-lg);
   position: relative;
@@ -434,35 +477,35 @@ main {
   background: #000000;
   color: #ffffff;
   font-weight: 900;
-  font-size: 1rem;
+  font-size: 0.95rem;
   letter-spacing: 2px;
   text-align: center;
-  padding: 10px;
+  padding: 8px;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .hall-layout-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .hall-aisle {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .hall-entrance-gap {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 900;
-  padding: 8px 0;
+  padding: 6px 0;
   color: #78350f;
 }
 
@@ -470,15 +513,20 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 8px;
-  border-radius: 14px;
+  padding: 4px 7px;
+  border-radius: 12px;
   background: #000000;
   color: #ffffff;
   font-weight: 800;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   cursor: pointer;
   user-select: none;
   box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.booth-pill.cgm {
+  border: 1px solid #2dd4bf;
+  color: #99f6e4;
 }
 
 .booth-pill:hover {
@@ -493,14 +541,9 @@ main {
   box-shadow: 0 0 16px rgba(245, 158, 11, 0.9);
 }
 
-.booth-pill .arrow {
-  font-size: 0.65rem;
-  opacity: 0.8;
-}
-
 .hall-center-island {
   display: flex;
-  gap: 4px;
+  gap: 3px;
   justify-content: center;
 }
 
@@ -509,18 +552,18 @@ main {
   flex-wrap: wrap;
   gap: 4px;
   justify-content: center;
-  margin-top: 14px;
-  padding-top: 12px;
+  margin-top: 10px;
+  padding-top: 10px;
   border-top: 2px dashed #c4a482;
 }
 
 .hall-bottom-row .booth-pill {
-  padding: 6px 8px;
+  padding: 5px 6px;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   justify-content: center;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
 /* Slots & Badges */
@@ -542,12 +585,6 @@ main {
   background: var(--card-hover);
 }
 
-.slot-time {
-  font-weight: 800;
-  font-size: 0.9rem;
-  min-width: 90px;
-}
-
 .act-badge {
   display: inline-flex;
   align-items: center;
@@ -566,6 +603,18 @@ main {
 .act-badge.hitouch { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.3); }
 .act-badge.hachi { background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3); }
 .act-badge.merch { background: rgba(244, 63, 94, 0.15); color: #fb7185; border-color: rgba(244, 63, 94, 0.3); }
+
+.group-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.group-tag.bnk { background: var(--purple-bg); color: var(--purple-text); border: 1px solid var(--purple-border); }
+.group-tag.cgm { background: var(--teal-bg); color: var(--teal-text); border: 1px solid var(--teal-border); }
 
 /* Overlap Conflict */
 .cf {
@@ -594,7 +643,7 @@ main {
   grid-template-columns: 2fr 1fr;
 }
 
-/* Modal Picker Drawer */
+/* Modal Drawer */
 #modal {
   display: none;
   position: fixed;
@@ -713,7 +762,7 @@ main {
 <div class="hd">
   <div class="logo-group">
     <div class="logo">FAN FESTIVAL 2026</div>
-    <div class="sub">BNK48 × CGM48 · FAN PLAN & INTERACTIVE BOOTH MAP</div>
+    <div class="sub">BNK48 × CGM48 · SENBATSU GENERAL ELECTION</div>
   </div>
   <div class="header-right np">
     <button class="tbtn" id="themeBtn" onclick="toggleTheme()">☀️ ธีมสว่าง</button>
@@ -732,54 +781,92 @@ main {
 </nav>
 
 <main>
-  <!-- 1. INTERACTIVE FAN PLAN & SCHEDULE PICKER -->
+  <!-- 1. INTERACTIVE FAN PLAN & DIRECT SCHEDULE BASKET ON FIRST PAGE -->
   <section id="page-plan" class="pg on">
-    <div class="card" style="border-left:4px solid var(--ac)">
-      <h3>
-        <span>🗺️ INTERACTIVE FAN PLAN (ผังบูธแฟนคลับ MCC HALL)</span>
-        <span style="font-size:0.8rem;color:var(--hl);font-weight:700">💡 กดที่ชื่อเมมเบอร์ หรือเลขบูธเพื่อดูตารางงานทันที!</span>
-      </h3>
-      <div class="card-subtitle">
-        จำลองตามผังงานต้นฉบับ FAN FESTIVAL 2026 · บูธหมายเลข 1–58
-      </div>
-    </div>
-
-    <div class="search-wrapper">
-      <input class="inp" id="planSearchInput" placeholder="🔍 ค้นหาชื่อเมมเบอร์ หรือ เลขบูธ (เช่น Hoop, Paeyah, 39)..." oninput="renderPlanView()">
-      <button class="search-clear" id="searchClearPlan" onclick="document.getElementById('planSearchInput').value='';renderPlanView()">✕</button>
-    </div>
-
-    <div class="plan-container">
-      <!-- Left Directory -->
-      <div class="card">
-        <b style="display:block;font-size:0.9rem;margin-bottom:12px;color:var(--ac)">📋 รายชื่อเมมเบอร์ & บูธ (1–58)</b>
-        <div id="planDirectoryList" class="plan-directory"></div>
-      </div>
-
-      <!-- Right Visual Map (MCC Hall Layout) -->
-      <div class="hall-wrapper">
-        <div class="hall-stage">STAGE</div>
-        
-        <div class="hall-layout-grid">
-          <!-- Left Aisle (1-5, gap, 6-12) -->
-          <div class="hall-aisle">
-            <div id="booths-1-5"></div>
-            <div class="hall-entrance-gap">⇄ ทางเข้า</div>
-            <div id="booths-6-12"></div>
+    <div class="two-plan">
+      <!-- Left Main Area: Plan & Map -->
+      <div>
+        <div class="card" style="border-left:4px solid var(--ac)">
+          <h3>
+            <span>🗺️ INTERACTIVE FAN PLAN (ผังบูธแฟนคลับ MCC HALL)</span>
+            <span style="font-size:0.8rem;color:var(--hl);font-weight:700">💡 กดเมมเบอร์หรือเลขบูธเพื่อเลือกกิจกรรมใส่ตารางได้ทันที!</span>
+          </h3>
+          <div class="card-subtitle" style="display:flex;align-items:center;gap:12px;margin-top:6px;flex-wrap:wrap">
+            <span><b>สัญลักษณ์วง:</b></span>
+            <span class="group-tag bnk">🟣 BNK48 (สีม่วง 36 บูธ)</span>
+            <span class="group-tag cgm">🟢 CGM48 (สีเขียว 22 บูธ)</span>
           </div>
-
-          <!-- Center Island (13-21 back-to-back 22-30) -->
-          <div class="hall-center-island">
-            <div class="hall-aisle" id="booths-13-21"></div>
-            <div class="hall-aisle" id="booths-22-30"></div>
-          </div>
-
-          <!-- Right Aisle (31-48) -->
-          <div class="hall-aisle" id="booths-31-48"></div>
         </div>
 
-        <!-- Bottom Row (49-58) -->
-        <div class="hall-bottom-row" id="booths-49-58"></div>
+        <div class="filter-bar">
+          <span style="font-size:0.75rem;font-weight:800;color:var(--mut);margin-right:4px">ตัวกรอง:</span>
+          <span class="filter-chip on" data-filter="all" onclick="setGroupFilter('all', this)">ทั้งหมด (58)</span>
+          <span class="filter-chip" data-filter="bnk" onclick="setGroupFilter('bnk', this)">🟣 BNK48 (36)</span>
+          <span class="filter-chip" data-filter="cgm" onclick="setGroupFilter('cgm', this)">🟢 CGM48 (22)</span>
+          <span class="filter-chip" data-filter="b1-20" onclick="setGroupFilter('b1-20', this)">📍 บูธ 1-20</span>
+          <span class="filter-chip" data-filter="b21-40" onclick="setGroupFilter('b21-40', this)">📍 บูธ 21-40</span>
+          <span class="filter-chip" data-filter="b41-58" onclick="setGroupFilter('b41-58', this)">📍 บูธ 41-58</span>
+        </div>
+
+        <div class="search-wrapper">
+          <input class="inp" id="planSearchInput" placeholder="🔍 ค้นหาชื่อเมมเบอร์ หรือ เลขบูธ (เช่น Hoop, Paeyah, 39)..." oninput="renderPlanView()">
+          <button class="search-clear" id="searchClearPlan" onclick="document.getElementById('planSearchInput').value='';renderPlanView()">✕</button>
+        </div>
+
+        <div class="plan-container">
+          <!-- Directory -->
+          <div class="card" style="padding:14px">
+            <b style="display:block;font-size:0.88rem;margin-bottom:10px;color:var(--ac)">📋 รายชื่อเมมเบอร์ (1–58)</b>
+            <div id="planDirectoryList" class="plan-directory"></div>
+          </div>
+
+          <!-- Visual Map -->
+          <div class="hall-wrapper">
+            <div class="hall-stage">STAGE</div>
+            <div class="hall-layout-grid">
+              <div class="hall-aisle">
+                <div id="booths-1-5"></div>
+                <div class="hall-entrance-gap">⇄ ทางเข้า</div>
+                <div id="booths-6-12"></div>
+              </div>
+              <div class="hall-center-island">
+                <div class="hall-aisle" id="booths-13-21"></div>
+                <div class="hall-aisle" id="booths-22-30"></div>
+              </div>
+              <div class="hall-aisle" id="booths-31-48"></div>
+            </div>
+            <div class="hall-bottom-row" id="booths-49-58"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: DIRECT LIVE SCHEDULE BASKET ON FIRST PAGE -->
+      <div>
+        <div id="firstPageCartArea" class="card" style="position:sticky;top:70px">
+          <div id="printHeaderFirstPage" class="hid" style="text-align:center;font-weight:900;color:var(--hl);margin-bottom:12px">
+            MY FAN FESTIVAL 2026 SCHEDULE
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center" class="np">
+            <b style="font-size:1.05rem;display:flex;align-items:center;gap:6px">🛒 ตารางงานของคุณ</b>
+            <button class="btn sm danger" onclick="clearCart()">ล้างตาราง</button>
+          </div>
+
+          <div id="firstPageCartItemList" style="max-height:52vh;overflow-y:auto;margin-top:10px;padding-right:4px"></div>
+
+          <div id="firstPageCartSummary" class="hid" style="margin-top:14px;border-top:1px dashed var(--bd);padding-top:12px">
+            <div class="stat" style="text-align:center;margin-bottom:12px;padding:10px 14px">
+              <span>กิจกรรมที่เลือก</span>
+              <b id="firstPageCartTotal" style="font-size:1.8rem;color:var(--ac)">0 รอบ</b>
+            </div>
+
+            <div class="row np" style="margin-bottom:0;display:flex;gap:6px">
+              <button class="btn p" style="flex:1" onclick="downloadCartImage('firstPageCartArea')">📷 บันทึกรูป</button>
+              <button class="btn" style="flex:1" onclick="copyScheduleLink()">🔗 แชร์ลิงก์</button>
+              <button class="btn" style="flex:1" onclick="printCart('printHeaderFirstPage')">🖨️ พิมพ์</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -789,8 +876,17 @@ main {
     <div class="card" style="border-left:4px solid var(--ac2)">
       <h3 style="color:var(--ac2)">🤝 บด System (Booth Matching Checker)</h3>
       <div class="card-subtitle">
-        ตรวจสอบคิวงานที่ <b>"ตรงกันและเวลาเดียวกัน"</b> ของเมมเบอร์ที่คุณสนใจ เพื่อวางแผนเดินงานแบบไม่พลาดจุดปะทะ!
+        ระบบช่วยตรวจสอบคิวงานที่ <b>"ตรงกันและเวลาเดียวกัน"</b> ของเมมเบอร์ที่คุณสนใจ (ทั้ง BNK48 และ CGM48)
       </div>
+    </div>
+
+    <div class="filter-bar">
+      <span class="filter-chip on" data-filter="all" onclick="setBodGroupFilter('all', this)">ทั้งหมด (58)</span>
+      <span class="filter-chip" data-filter="bnk" onclick="setBodGroupFilter('bnk', this)">🟣 BNK48</span>
+      <span class="filter-chip" data-filter="cgm" onclick="setBodGroupFilter('cgm', this)">🟢 CGM48</span>
+      <span class="filter-chip" data-filter="b1-20" onclick="setBodGroupFilter('b1-20', this)">📍 บูธ 1-20</span>
+      <span class="filter-chip" data-filter="b21-40" onclick="setBodGroupFilter('b21-40', this)">📍 บูธ 21-40</span>
+      <span class="filter-chip" data-filter="b41-58" onclick="setBodGroupFilter('b41-58', this)">📍 บูธ 41-58</span>
     </div>
 
     <div class="search-wrapper">
@@ -819,14 +915,14 @@ main {
     <div class="two">
       <div>
         <div class="card" style="border-left:4px solid var(--ac)">
-          <h3 style="color:var(--ac)">📅 เลือกกิจกรรมลงตารางงานส่วนตัว</h3>
+          <h3 style="color:var(--ac)">📅 จัดตารางงานส่วนตัว</h3>
           <div class="card-subtitle">
             กดเลือกเมมเบอร์เพื่อดูตารางเวลาและกดใส่ตะกร้าตารางงานของคุณ
           </div>
         </div>
 
         <div class="search-wrapper">
-          <input class="inp" id="schedSearchInput" placeholder="🔍 ค้นหาเมมเบอร์..." oninput="renderScheduleGrid()">
+          <input class="inp" id="schedSearchInput" placeholder="🔍 ค้นหาชื่อเมมเบอร์..." oninput="renderScheduleGrid()">
         </div>
 
         <div id="schedMemberGrid" class="plan-directory"></div>
@@ -852,9 +948,9 @@ main {
             </div>
 
             <div class="row np" style="margin-bottom:0;display:flex;gap:6px">
-              <button class="btn p" style="flex:1" onclick="downloadCartImage()">📷 บันทึกรูป</button>
+              <button class="btn p" style="flex:1" onclick="downloadCartImage('cartArea')">📷 บันทึกรูป</button>
               <button class="btn" style="flex:1" onclick="copyScheduleLink()">🔗 แชร์ลิงก์</button>
-              <button class="btn" style="flex:1" onclick="printCart()">🖨️ พิมพ์</button>
+              <button class="btn" style="flex:1" onclick="printCart('printHeader')">🖨️ พิมพ์</button>
             </div>
           </div>
         </div>
@@ -877,7 +973,7 @@ main {
       <div id="modalBoothPill" class="dir-num" style="width:36px;height:36px;font-size:1rem;background:var(--ac);color:#fff"></div>
       <div>
         <h3 id="modalName" style="margin:0;color:var(--ac)"></h3>
-        <small id="modalSub" style="color:var(--mut);font-weight:700"></small>
+        <span id="modalSubGroup" class="group-tag"></span>
       </div>
     </div>
     <div id="modalList"></div>
@@ -916,7 +1012,9 @@ const RAW = {
 };
 
 const B = "Nall,Neen,Arlee,L,Grape,Satangpound,Lewlew,Punpon,Lingling,Patt,Micha,Mint,Mail,Else,Shenae,Nammonn,Pancake,Monet,Praew,Luksorn,Cartoon,Emma,Palmmy,Chifa,Lookked,Ginna,Jingjing,Khaimook,Marine,Janry,Berry,Galeya,Mayji,Praifa,Emmy,Blythe,Mirin,Wawa,Hoop,Sindy,Inkcha,Nisha,Jew,Tara,Nana,Namphet,Kwan,Hongyok,Saonoi,Rose,Niya,Khowjow,Proud,Yoghurt,Fame,Ploen,Prae,Valentine".split(',');
-const TEAL = new Set("Satangpound,Lewlew,Punpon,Lingling,Else,Shenae,Emma,Chifa,Lookked,Ginna,Jingjing,Praifa,Nisha,Tara,Nana,Namphet,Kwan,Hongyok,Saonoi,Ploen,Prae,Valentine".split(','));
+
+const CGM_SET = new Set("Satangpound,Lewlew,Punpon,Lingling,Else,Shenae,Emma,Chifa,Lookked,Ginna,Jingjing,Praifa,Nisha,Tara,Nana,Namphet,Kwan,Hongyok,Saonoi,Ploen,Prae,Valentine".split(','));
+const isCGM = m => CGM_SET.has(m);
 
 const DATA = {};
 ACT.forEach(a => DATA[a.k] = {});
@@ -931,9 +1029,11 @@ DAYS.forEach(d => {
 
 /* STATE */
 const $ = id => document.getElementById(id);
-const ALL = B.slice(); // Maintain Booth Order 1-58!
+const ALL = B.slice();
 const bn = m => B.indexOf(m) + 1;
 let selected = new Set();
+let planGroupFilter = 'all';
+let bodGroupFilter = 'all';
 let cart = new Set();
 let activeMember = '';
 
@@ -969,41 +1069,63 @@ function showPage(p, btn) {
   if (p === 'schedule') { renderScheduleGrid(); renderCart(); }
 }
 
-/* =========================================================
-   INTERACTIVE FAN PLAN GRAPHIC LAYOUT RENDERER
-   ========================================================= */
+function setGroupFilter(filter, el) {
+  planGroupFilter = filter;
+  el.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  renderPlanView();
+}
+
+function setBodGroupFilter(filter, el) {
+  bodGroupFilter = filter;
+  el.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  chips('bodMemberGrid', 'bodSearchInput', 1);
+}
+
+function filterMembers(m, q, filterType) {
+  const num = bn(m);
+  const matchesSearch = !q || m.toLowerCase().includes(q) || num.toString() === q;
+  if (!matchesSearch) return false;
+
+  if (filterType === 'bnk') return !isCGM(m);
+  if (filterType === 'cgm') return isCGM(m);
+  if (filterType === 'b1-20') return num >= 1 && num <= 20;
+  if (filterType === 'b21-40') return num >= 21 && num <= 40;
+  if (filterType === 'b41-58') return num >= 41 && num <= 58;
+  return true;
+}
+
+/* INTERACTIVE PLAN VIEW */
 function renderPlanView() {
   const q = ($('planSearchInput') ? $('planSearchInput').value : '').toLowerCase().trim();
 
-  // 1. Render Left Directory (1-58)
+  // 1. Render Directory
   const dirHtml = B.map((m, i) => {
+    if (!filterMembers(m, q, planGroupFilter)) return '';
     const num = i + 1;
-    const isTeal = TEAL.has(m);
-    const isMatch = !q || m.toLowerCase().includes(q) || num.toString() === q;
-    if (!isMatch) return '';
+    const cgm = isCGM(m);
 
-    return `<div class="dir-item ${isTeal ? 'teal' : ''}" onclick="openModal('${m}')">
+    return `<div class="dir-item ${cgm ? 'teal' : ''}" onclick="openModal('${m}')">
       <div class="dir-num">${num}</div>
       <span class="dir-name">${m}</span>
     </div>`;
   }).join('');
   $('planDirectoryList').innerHTML = dirHtml || `<div class="empty" style="grid-column:1/-1">ไม่พบเมมเบอร์</div>`;
 
-  // Helper for Hall Map Booth Pills
+  // 2. Render Hall Layout Booth Pills
   const makeBoothPill = (num, arrow = '') => {
     const m = B[num - 1];
     if (!m) return '';
-    const isTeal = TEAL.has(m);
-    const isMatch = !q || m.toLowerCase().includes(q) || num.toString() === q;
+    const cgm = isCGM(m);
+    const visible = filterMembers(m, q, planGroupFilter);
     
-    return `<div class="booth-pill ${isMatch ? '' : 'hid'}" 
-      style="${isTeal ? 'border:1px solid #2dd4bf;color:#99f6e4' : ''}" 
+    return `<div class="booth-pill ${cgm ? 'cgm' : ''} ${visible ? '' : 'hid'}" 
       onclick="openModal('${m}')">
       <span>${arrow} ${num}</span>
     </div>`;
   };
 
-  // 2. Render Hall Layout Sections
   $('booths-1-5').innerHTML = [1,2,3,4,5].map(n => makeBoothPill(n, '▶')).join('');
   $('booths-6-12').innerHTML = [6,7,8,9,10,11,12].map(n => makeBoothPill(n, '▶')).join('');
   $('booths-13-21').innerHTML = [13,14,15,16,17,18,19,20,21].map(n => makeBoothPill(n, '◀')).join('');
@@ -1012,22 +1134,21 @@ function renderPlanView() {
   $('booths-49-58').innerHTML = [49,50,51,52,53,54,55,56,57,58].map(n => makeBoothPill(n, '▲')).join('');
 }
 
-/* =========================================================
-   MODAL DRAWER (MEMBER ACTIVITY SCHEDULE PICKER)
-   ========================================================= */
+/* MODAL DRAWER */
 function openModal(m) {
   activeMember = m;
   const bNo = bn(m);
-  const isTeal = TEAL.has(m);
+  const cgm = isCGM(m);
 
   $('modalBoothPill').textContent = '#' + bNo;
   $('modalName').textContent = m;
-  $('modalSub').textContent = isTeal ? '🟢 บูธกลุ่มพิเศษ' : '📍 บูธปกติ';
+  $('modalSubGroup').textContent = cgm ? '🟢 CGM48 (สีเขียว)' : '🟣 BNK48 (สีม่วง)';
+  $('modalSubGroup').className = `group-tag ${cgm ? 'cgm' : 'bnk'}`;
 
   const g = byDay(acts(m));
 
   $('modalList').innerHTML = DAYS.map(d => g[d] ? 
-    `<div class="dl" style="font-size:0.82rem;font-weight:800;color:var(--ac);margin:14px 0 6px">📅 วัน${d}</div>` + 
+    `<div style="font-size:0.82rem;font-weight:800;color:var(--ac);margin:14px 0 6px">📅 วัน${d}</div>` + 
     g[d].map(x => {
       const id = [m, x.a.k, x.d, x.t].join('|');
       const on = cart.has(id);
@@ -1065,10 +1186,10 @@ function clearSearch(gid, iid, cid, small) {
 
 function chips(gid, iid, small) {
   const q = $(iid).value.toLowerCase().trim();
-  const filtered = ALL.filter(m => m.toLowerCase().includes(q));
+  const filtered = ALL.filter(m => filterMembers(m, q, bodGroupFilter));
 
   $(gid).innerHTML = filtered.map(m =>
-    `<div class="dir-item ${TEAL.has(m) ? 'teal' : ''} ${selected.has(m) ? 'selected-active' : ''}" onclick="toggleMember('${m}')">
+    `<div class="dir-item ${isCGM(m) ? 'teal' : ''} ${selected.has(m) ? 'selected-active' : ''}" onclick="toggleMember('${m}')">
       <div class="dir-num">${bn(m)}</div>
       <span class="dir-name">${m}</span>
     </div>`
@@ -1083,7 +1204,7 @@ function toggleMember(m) {
 function refresh() {
   chips('bodMemberGrid', 'bodSearchInput', 1);
   const list = [...selected].sort();
-  const html = list.map(m => `<span class="tag" style="border-color:var(--ac)">${m} (#${bn(m)}) <i style="cursor:pointer" onclick="toggleMember('${m}')">×</i></span>`).join(' ');
+  const html = list.map(m => `<span class="tag" style="border-color:var(--ac);color:var(--fg)"><b>${m}</b> (${isCGM(m) ? 'CGM' : 'BNK'} · #${bn(m)}) <i style="cursor:pointer" onclick="toggleMember('${m}')">×</i></span>`).join(' ');
   
   $('bodSelChips').innerHTML = html;
   $('bodSelBar').classList.toggle('hid', !list.length);
@@ -1093,7 +1214,7 @@ function refresh() {
 function renderBod() {
   const el = $('bodResults');
   if (!selected.size) {
-    el.innerHTML = '<div class="card empty">กรุณาเลือกเมมเบอร์เพื่อตรวจสอบคิวงานที่ตรงกันและเวลาเดียวกัน</div>';
+    el.innerHTML = '<div class="card empty">กรุณาเลือกเมมเบอร์ด้านบน เพื่อตรวจสอบคิวงานที่ตรงกันและเวลาเดียวกัน</div>';
     return;
   }
 
@@ -1121,7 +1242,7 @@ function renderBod() {
           <span class="act-badge ${actObj ? actObj.k : ''}">${actObj ? actObj.icon : ''} ${a}</span>
         </div>
         <div>
-          ${ms.sort().map(n => `<span class="tag" style="border-color:var(--ac);color:var(--fg)"><b>${n}</b> (#${bn(n)})</span>`).join('')}
+          ${ms.sort().map(n => `<span class="tag" style="border-color:var(--ac);color:var(--fg)"><b>${n}</b> (${isCGM(n) ? 'CGM' : 'BNK'} · #${bn(n)})</span>`).join('')}
         </div>
       </div>`;
     });
@@ -1161,15 +1282,16 @@ function renderSummary() {
   let html = `<div class="card" style="text-align:center;margin-bottom:16px">
     <span style="font-size:0.8rem;color:var(--mut);font-weight:700">จำนวนคิวกิจกรรมทั้งหมดในงาน</span>
     <b style="display:block;font-size:2.8rem;color:var(--ac);margin:2px 0">${total}</b>
-    <span style="font-size:0.85rem;color:var(--mut)">เมมเบอร์เข้าร่วมทั้งหมด ${st.length} คน</span>
+    <span style="font-size:0.85rem;color:var(--mut)">เมมเบอร์เข้าร่วมทั้งหมด ${st.length} คน (BNK48 36 คน · CGM48 22 คน)</span>
   </div>`;
 
   st.forEach((x, i) => {
     const rankClass = i === 0 ? 'top1' : (i === 1 ? 'top2' : (i === 2 ? 'top3' : ''));
     const rankBadge = i === 0 ? '👑' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : i + 1));
     const g = byDay(x.l);
+    const cgm = isCGM(x.m);
 
-    const det = DAYS.map(d => g[d] ? `<div class="dl" style="font-size:0.8rem;font-weight:800;color:var(--ac);margin:10px 0 4px">📅 วัน${d}</div>` + g[d].map(y =>
+    const det = DAYS.map(d => g[d] ? `<div style="font-size:0.8rem;font-weight:800;color:var(--ac);margin:10px 0 4px">📅 วัน${d}</div>` + g[d].map(y =>
       `<div class="slot">
         <span>⏰ ${y.t}</span>
         <span class="act-badge ${y.a.k}">${y.a.icon} ${y.a.s}</span>
@@ -1181,7 +1303,7 @@ function renderSummary() {
         <div class="dir-num" style="width:30px;height:30px;font-size:0.8rem">${rankBadge}</div>
         <div style="flex:1">
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <b>${x.m} <small style="color:var(--mut)">📍 บูธ #${bn(x.m)}</small></b>
+            <b>${x.m} <span class="group-tag ${cgm ? 'cgm' : 'bnk'}">${cgm ? 'CGM48' : 'BNK48'}</span> <small style="color:var(--mut)">📍 บูธ #${bn(x.m)}</small></b>
             <b style="color:var(--ac2);font-size:0.88rem">${x.l.length} คิว <span style="font-size:0.75rem;color:var(--mut)">▼</span></b>
           </div>
           <div style="height:8px;border-radius:8px;background:var(--bd);overflow:hidden;margin-top:4px">
@@ -1199,7 +1321,7 @@ function renderSummary() {
 function renderScheduleGrid() {
   const q = $('schedSearchInput').value.toLowerCase().trim();
   $('schedMemberGrid').innerHTML = ALL.filter(m => m.toLowerCase().includes(q)).map(m =>
-    `<div class="dir-item ${TEAL.has(m) ? 'teal' : ''}" onclick="openModal('${m}')">
+    `<div class="dir-item ${isCGM(m) ? 'teal' : ''}" onclick="openModal('${m}')">
       <div class="dir-num">${bn(m)}</div>
       <span class="dir-name">${m}</span>
     </div>`
@@ -1226,14 +1348,20 @@ function clearCart() {
   showToast('ล้างตารางงานเรียบร้อยแล้ว');
 }
 
+/* RENDER CART ON BOTH FIRST PAGE & SCHEDULE PAGE SIMULTANEOUSLY */
 function renderCart() {
-  const el = $('cartItemList');
+  const elPage1 = $('firstPageCartItemList');
+  const elSched = $('cartItemList');
+  
+  $('firstPageCartSummary').classList.toggle('hid', !cart.size);
   $('cartSummary').classList.toggle('hid', !cart.size);
   $('floatCartCount').textContent = cart.size;
   $('floatingCartBtn').classList.toggle('show', cart.size > 0);
 
   if (!cart.size) {
-    el.innerHTML = '<div class="empty" style="padding:20px">ยังไม่มีกิจกรรมในตาราง<br><small>กดเลือกเมมเบอร์เพื่อวางแผน</small></div>';
+    const emptyHtml = '<div class="empty" style="padding:20px">ยังไม่มีกิจกรรมในตาราง<br><small>กดเลือกเมมเบอร์หรือตำแหน่งบูธด้านซ้ายเพื่อเลือกกิจกรรมใส่ตาราง</small></div>';
+    elPage1.innerHTML = emptyHtml;
+    elSched.innerHTML = emptyHtml;
     return;
   }
 
@@ -1243,32 +1371,40 @@ function renderCart() {
   });
 
   const g = byDay(items);
-  el.innerHTML = DAYS.map(d => g[d] ? `<div class="dl" style="font-size:0.8rem;font-weight:800;color:var(--ac);margin:10px 0 4px">📅 วัน${d}</div>` + g[d].sort((x, y) => x.t.localeCompare(y.t)).map(x =>
+  const cartHtml = DAYS.map(d => g[d] ? `<div style="font-size:0.8rem;font-weight:800;color:var(--ac);margin:10px 0 4px">📅 วัน${d}</div>` + g[d].sort((x, y) => x.t.localeCompare(y.t)).map(x =>
     `<div class="slot" style="border-left:3px solid var(--ac)">
       <div>
         <span class="act-badge ${x.a.k}">${x.a.icon} ${x.a.s}</span><br>
-        <b style="font-size:0.88rem">${x.m}</b> <small>📍 บูธ #${bn(x.m)} · ⏰ ${x.t} น.</small>
+        <b style="font-size:0.88rem">${x.m}</b> <span class="group-tag ${isCGM(x.m) ? 'cgm' : 'bnk'}">${isCGM(x.m) ? 'CGM' : 'BNK'}</span> <small>📍 บูธ #${bn(x.m)} · ⏰ ${x.t} น.</small>
       </div>
       <button class="btn sm np danger" onclick="removeFromCart('${x.id}')">✕</button>
     </div>`
   ).join('') : '').join('');
 
+  elPage1.innerHTML = cartHtml;
+  elSched.innerHTML = cartHtml;
+
+  $('firstPageCartTotal').textContent = cart.size + ' รอบ';
   $('cartTotal').textContent = cart.size + ' รอบ';
 }
 
 function scrollToCart() {
-  $('cartArea').scrollIntoView({ behavior: 'smooth' });
+  const target = document.getElementById('firstPageCartArea');
+  if (target) target.scrollIntoView({ behavior: 'smooth' });
 }
 
-async function downloadCartImage() {
+async function downloadCartImage(targetId = 'firstPageCartArea') {
   if (!cart.size) return;
-  $('printHeader').classList.remove('hid');
-  const list = $('cartItemList');
-  const mh = list.style.maxHeight;
-  list.style.maxHeight = 'none';
+  const area = $(targetId) || $('firstPageCartArea') || $('cartArea');
+  const printHeader = area.querySelector('.hid') || $('printHeaderFirstPage') || $('printHeader');
+  
+  if (printHeader) printHeader.classList.remove('hid');
+  const list = area.querySelector('#firstPageCartItemList') || area.querySelector('#cartItemList');
+  const mh = list ? list.style.maxHeight : '';
+  if (list) list.style.maxHeight = 'none';
 
   try {
-    const c = await html2canvas($('cartArea'), {
+    const c = await html2canvas(area, {
       scale: 2,
       backgroundColor: document.body.classList.contains('light-theme') ? '#f1f5f9' : '#0f172a',
       ignoreElements: e => e.classList && e.classList.contains('np')
@@ -1281,15 +1417,16 @@ async function downloadCartImage() {
   } catch (e) {
     showToast('ไม่สามารถสร้างรูปภาพได้');
   } finally {
-    $('printHeader').classList.add('hid');
-    list.style.maxHeight = mh;
+    if (printHeader) printHeader.classList.add('hid');
+    if (list) list.style.maxHeight = mh;
   }
 }
 
-function printCart() {
-  $('printHeader').classList.remove('hid');
+function printCart(headerId = 'printHeaderFirstPage') {
+  const header = $(headerId) || $('printHeaderFirstPage') || $('printHeader');
+  if (header) header.classList.remove('hid');
   window.print();
-  $('printHeader').classList.add('hid');
+  if (header) header.classList.add('hid');
 }
 
 function copyScheduleLink() {
@@ -1312,9 +1449,6 @@ function loadStateFromURL() {
     if (t) {
       const a = JSON.parse(t);
       if (Array.isArray(a)) cart = new Set(a);
-    }
-    if (cart.size && p.get('share') === '3') {
-      showPage('schedule', document.querySelectorAll('.nb')[4]);
     }
   } catch (e) {
     console.warn(e);
@@ -1339,6 +1473,7 @@ function toggleTheme() {
   renderPlanView();
   renderActivities();
   loadStateFromURL();
+  renderCart();
 })();
 </script>
 </body>
